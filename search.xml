@@ -158,7 +158,7 @@
       </tags>
   </entry>
   <entry>
-    <title>数据结构5</title>
+    <title>数据结构复习（五）</title>
     <url>/2023/10/31/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%845/</url>
     <content><![CDATA[<h1 id="线索二叉树"><a href="#线索二叉树" class="headerlink" title="线索二叉树"></a>线索二叉树</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><img src="/img/13.png"><br><img src="/img/14.png"><br>做题先遍历，得出遍历顺序好连线</p>
 <h2 id="中序线索二叉树的基本操作"><a href="#中序线索二叉树的基本操作" class="headerlink" title="中序线索二叉树的基本操作"></a>中序线索二叉树的基本操作</h2><ul>
