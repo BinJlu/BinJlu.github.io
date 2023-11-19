@@ -218,63 +218,6 @@
       </tags>
   </entry>
   <entry>
-    <title>数据结构复习（五）</title>
-    <url>/2023/10/31/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%845--%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
-    <content><![CDATA[<h1 id="线索二叉树"><a href="#线索二叉树" class="headerlink" title="线索二叉树"></a>线索二叉树</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><img src="/img/13.png"><br><img src="/img/14.png"><br>做题先遍历，得出遍历顺序好连线</p>
-<h2 id="中序线索二叉树的基本操作"><a href="#中序线索二叉树的基本操作" class="headerlink" title="中序线索二叉树的基本操作"></a>中序线索二叉树的基本操作</h2><ul>
-<li><p>找线索二叉树的第一个结点</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">TreeNode* <span class="title function_">FirstInorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    TreeNode* p=t;</span><br><span class="line">    <span class="keyword">while</span>(p-&gt;LThread==<span class="number">0</span>)<span class="comment">//p有左孩子</span></span><br><span class="line">        p=p-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>找线索二叉树的最后一个节点</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">TreeNode* <span class="title function_">LastInorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    TreeNode* p=t;</span><br><span class="line">    <span class="keyword">while</span>(p-&gt;LRThread==<span class="number">0</span>)<span class="comment">//p有右孩子</span></span><br><span class="line">        p=p-&gt;right;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>找结点p的中根后继结点<br>若p-&gt;Rthread&#x3D;&#x3D;1,中根后继为p-&gt;right<br>若p-&gt;Rthread&#x3D;&#x3D;0,中根后继为其右子树的中根序列首结点</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">TreeNode* <span class="title function_">nextInorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(t-&gt;Rthread==<span class="number">1</span>) <span class="keyword">return</span> t-&gt;right;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> FirstInorder(t-&gt;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>找结点p的中根前驱节点<br>若p-&gt;Lthread&#x3D;&#x3D;1,中根前驱为p-&gt;left<br>若p-&gt;Lthread&#x3D;&#x3D;0,中跟前驱为其左子树的中根序列尾结点</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">TreeNode* <span class="title function_">preInorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(t-&gt;Lthread==<span class="number">1</span>) <span class="keyword">return</span> t-&gt;left;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> LastInorder(t&gt;left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>中序线索二叉树的中根遍历</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Inorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(TreeNode* p=FirstInorder(t);p!=<span class="literal">NULL</span>;p=nextInorder(p))</span><br><span class="line">    &#123;</span><br><span class="line">        visit(p-&gt;data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li><p>二叉树的中序线索化</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Inorder_Threading</span><span class="params">(TreeNode* p)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(p==<span class="literal">NULL</span>) <span class="keyword">return</span>;</span><br><span class="line">    Inorder_Threading(t-&gt;left);<span class="comment">//左</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(p-&gt;left==<span class="literal">NULL</span>) <span class="comment">//中</span></span><br><span class="line">    &#123;</span><br><span class="line">        p-&gt;Lthread=<span class="number">1</span>;</span><br><span class="line">        p-&gt;left=pre;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        p-&gt;Lthread=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(pre!=<span class="literal">NULL</span>&amp;&amp;pre-&gt;right==<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        pre-&gt;Rthread=<span class="number">1</span>;</span><br><span class="line">        pre-&gt;right=p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(pre!=<span class="literal">NULL</span>)</span><br><span class="line">        pre-&gt;Rthread=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    Inrder_Threading(t-&gt;right);<span class="comment">//右</span></span><br><span class="line">&#125;</span><br><span class="line">pre-&gt;Rthread=<span class="number">1</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h2 id="关于前序后续线索二叉树"><a href="#关于前序后续线索二叉树" class="headerlink" title="关于前序后续线索二叉树"></a>关于前序后续线索二叉树</h2><p>前序线索二叉树不能高效解决先根前序<br>后序线索二叉树不能高效解决后根后续</p>
-]]></content>
-      <tags>
-        <tag>线索二叉树</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据结构复习（六）</title>
-    <url>/2023/10/31/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%846--%E6%A0%91%E7%9A%84%E5%AD%98%E5%82%A8%E4%B8%8E%E6%93%8D%E4%BD%9C/</url>
-    <content><![CDATA[<h1 id="树的存储和操作"><a href="#树的存储和操作" class="headerlink" title="树的存储和操作"></a>树的存储和操作</h1><h2 id="树和二叉树的转换"><a href="#树和二叉树的转换" class="headerlink" title="树和二叉树的转换"></a>树和二叉树的转换</h2><h3 id="树转换二叉树"><a href="#树转换二叉树" class="headerlink" title="树转换二叉树"></a>树转换二叉树</h3><p><strong>右兄弟变右孩子</strong><br><img src="/img/15.png"></p>
-<h3 id="森林转换二叉树"><a href="#森林转换二叉树" class="headerlink" title="森林转换二叉树"></a>森林转换二叉树</h3><p><img src="/img/16.png"><br><img src="/img/17.png"></p>
-<h3 id="二叉树转换树"><a href="#二叉树转换树" class="headerlink" title="二叉树转换树"></a>二叉树转换树</h3><p><strong>右孩子变右兄弟</strong></p>
-<h3 id="二叉树转换森林"><a href="#二叉树转换森林" class="headerlink" title="二叉树转换森林"></a>二叉树转换森林</h3><p>从根出发，断开其与右孩子的连线，得到多个二叉树<br>再按上述方法，将二叉树变成树</p>
-<h2 id="树的存储结构"><a href="#树的存储结构" class="headerlink" title="树的存储结构"></a>树的存储结构</h2><ul>
-<li><p>双亲表示法</p>
-</li>
-<li><p>孩子表示法</p>
-</li>
-<li><p>先根序列及结点度表示法</p>
-</li>
-<li><p>后根序列及结点度表示法</p>
-</li>
-<li><p>层次序列及结点度表示法</p>
-</li>
-<li><p>父亲链接结构</p>
-</li>
-<li><p>孩子连接结构</p>
-</li>
-<li><p>父亲孩子连接结构</p>
-</li>
-<li><p>左孩子右兄弟连接结构</p>
-</li>
-</ul>
-<h2 id="树和森林的遍历"><a href="#树和森林的遍历" class="headerlink" title="树和森林的遍历"></a>树和森林的遍历</h2>]]></content>
-      <tags>
-        <tag>树的存储和操作</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数据结构7--树和二叉树的应用</title>
     <url>/2023/11/04/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%847-%E6%A0%91%E5%92%8C%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E5%BA%94%E7%94%A8/</url>
     <content><![CDATA[<h1 id="树和二叉树的应用"><a href="#树和二叉树的应用" class="headerlink" title="树和二叉树的应用"></a>树和二叉树的应用</h1><h2 id="压缩与哈夫曼树"><a href="#压缩与哈夫曼树" class="headerlink" title="压缩与哈夫曼树"></a>压缩与哈夫曼树</h2><p><strong>最优编码问题</strong><br>设组成文件的字符集A&#x3D;{a1,a2,…an}，其中ai出现的次数为ci，ai的编码成都为li，设计编码方案使min$\sum_{i&#x3D;1}^{n}ci*li$</p>
@@ -371,11 +314,17 @@
   <entry>
     <title>机器学习class_2</title>
     <url>/2023/11/19/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0class-2/</url>
-    <content><![CDATA[<p><img src="/img/27.png" alt="通关秘籍"></p>
+    <content><![CDATA[<h1 id="机器学习任务攻略"><a href="#机器学习任务攻略" class="headerlink" title="机器学习任务攻略"></a>机器学习任务攻略</h1><p><img src="/img/27.png" alt="通关秘籍"></p>
+<h2 id="Optimization"><a href="#Optimization" class="headerlink" title="Optimization"></a>Optimization</h2><p>local minima or saddle point ?<br>站在更高的维度，或许 local minima 只是 saddle point<br>怎么解决呢？</p>
+<h3 id="Batch-and-Momentum"><a href="#Batch-and-Momentum" class="headerlink" title="Batch and Momentum"></a>Batch and Momentum</h3><p><strong>Large Batch vs Small Batch</strong><br>Large Batch:冷却长，伤害高<br>Small Batch:冷却短，伤害低<br>但是由于gpu能做并行计算，large batch时间可以与small batch时间差不多，这样1个epoch时间large batch反而短很多<br><img src="/img/28.png"><br><img src="/img/29.png"><br><img src="/img/30.png" alt="比较图"></p>
+<p><strong>Momentum</strong><br><img src="/img/31.png" alt="Momentum"></p>
 ]]></content>
       <categories>
         <category>机器学习</category>
       </categories>
+      <tags>
+        <tag>通关秘籍</tag>
+      </tags>
   </entry>
   <entry>
     <title>算法基础--数据结构（一）</title>
@@ -389,6 +338,70 @@
         <tag>队列</tag>
         <tag>单调栈</tag>
         <tag>单调队列</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构复习（六）</title>
+    <url>/2023/10/31/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%846--%E6%A0%91%E7%9A%84%E5%AD%98%E5%82%A8%E4%B8%8E%E6%93%8D%E4%BD%9C/</url>
+    <content><![CDATA[<h1 id="树的存储和操作"><a href="#树的存储和操作" class="headerlink" title="树的存储和操作"></a>树的存储和操作</h1><h2 id="树和二叉树的转换"><a href="#树和二叉树的转换" class="headerlink" title="树和二叉树的转换"></a>树和二叉树的转换</h2><h3 id="树转换二叉树"><a href="#树转换二叉树" class="headerlink" title="树转换二叉树"></a>树转换二叉树</h3><p><strong>右兄弟变右孩子</strong><br><img src="/img/15.png"></p>
+<h3 id="森林转换二叉树"><a href="#森林转换二叉树" class="headerlink" title="森林转换二叉树"></a>森林转换二叉树</h3><p><img src="/img/16.png"><br><img src="/img/17.png"></p>
+<h3 id="二叉树转换树"><a href="#二叉树转换树" class="headerlink" title="二叉树转换树"></a>二叉树转换树</h3><p><strong>右孩子变右兄弟</strong></p>
+<h3 id="二叉树转换森林"><a href="#二叉树转换森林" class="headerlink" title="二叉树转换森林"></a>二叉树转换森林</h3><p>从根出发，断开其与右孩子的连线，得到多个二叉树<br>再按上述方法，将二叉树变成树</p>
+<h2 id="树的存储结构"><a href="#树的存储结构" class="headerlink" title="树的存储结构"></a>树的存储结构</h2><ul>
+<li><p>双亲表示法</p>
+</li>
+<li><p>孩子表示法</p>
+</li>
+<li><p>先根序列及结点度表示法</p>
+</li>
+<li><p>后根序列及结点度表示法</p>
+</li>
+<li><p>层次序列及结点度表示法</p>
+</li>
+<li><p>父亲链接结构</p>
+</li>
+<li><p>孩子连接结构</p>
+</li>
+<li><p>父亲孩子连接结构</p>
+</li>
+<li><p>左孩子右兄弟连接结构</p>
+</li>
+</ul>
+<h2 id="树和森林的遍历"><a href="#树和森林的遍历" class="headerlink" title="树和森林的遍历"></a>树和森林的遍历</h2>]]></content>
+      <tags>
+        <tag>树的存储和操作</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一、算法基础（一）</title>
+    <url>/2023/10/25/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1 id="排序与二分"><a href="#排序与二分" class="headerlink" title="排序与二分"></a>排序与二分</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><ul>
+<li>快速排序</li>
+<li>归并排序</li>
+</ul>
+<p>1.快速排序</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">quick_sort</span><span class="params">(<span class="type">int</span> q[], <span class="type">int</span> l, <span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (l &gt;= r) <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> x=q[l+r &gt;&gt;<span class="number">1</span>];<span class="comment">//确定分界点，这里q[]未必要找中点</span></span><br><span class="line">    <span class="type">int</span> i = l - <span class="number">1</span>, j = r + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span> (q[i] &lt; x);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span> (q[j] &gt; x);</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) swap(q[i], q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    quick_sort(q, l, j), quick_sort(q, j + <span class="number">1</span>, r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.归并排序</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">merge_sort</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> l,<span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> mid= l+r &gt;&gt;<span class="number">1</span>;<span class="comment">//确定分界点，一定得找中点</span></span><br><span class="line">    merge_sort(a,l,mid);</span><br><span class="line">    merge_sort(a,mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="type">int</span> k=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> i=l,j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid&amp;&amp;j&lt;=r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a[i]&lt;=a[j]) </span><br><span class="line">        tmp[k++]=a[i++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        tmp[k++]=a[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)</span><br><span class="line">    tmp[k++]=a[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r)</span><br><span class="line">    tmp[k++]=a[j++];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=l,j=<span class="number">0</span>;i&lt;=r;i++,j++)</span><br><span class="line">    a[i]=tmp[j];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>逆序对的数量</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line">using namespace <span class="built_in">std</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N=<span class="number">1e5</span>+<span class="number">10</span>;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> <span class="title function_">merge_sort</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> l,<span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> res=merge_sort(a,l,mid)+merge_sort(a,mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="type">int</span> i=l,j=mid+<span class="number">1</span>,k=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> b[N];</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid&amp;&amp;j&lt;=r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a[i]&lt;=a[j])</span><br><span class="line">        b[k++]=a[i++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            res+=mid-i+<span class="number">1</span>;</span><br><span class="line">            b[k++]=a[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)</span><br><span class="line">    b[k++]=a[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r)</span><br><span class="line">    b[k++]=a[j++];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=l,j=<span class="number">0</span>;i&lt;=r;i++,j++)</span><br><span class="line">    a[i]=b[j];</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="type">int</span> a[N];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> ans=merge_sort(a,<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="二分"><a href="#二分" class="headerlink" title="二分"></a>二分</h2><p><img src="/img/2.png"></p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> l=<span class="number">-1</span>,r=N;</span><br><span class="line"><span class="keyword">while</span>(l+<span class="number">1</span>!=r)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(isblue(mid))</span><br><span class="line">        l=m;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        r=m;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> l or r;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>例题 acwing</p>
+</blockquote>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line">using namespace <span class="built_in">std</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N=<span class="number">1e5</span>+<span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> n,q;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    <span class="type">int</span> a[N];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line">    <span class="keyword">while</span>(q--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> x;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;x;</span><br><span class="line">        <span class="type">int</span> l=<span class="number">-1</span>,r=n;</span><br><span class="line">        <span class="keyword">while</span>(l+<span class="number">1</span>!=r)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> mid=l +r &gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(a[mid]&lt;x)<span class="comment">//isblue1</span></span><br><span class="line">            l=mid;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            r=mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(a[r]==x) <span class="built_in">cout</span>&lt;&lt;r;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;<span class="number">-1</span>;</span><br><span class="line">        l=<span class="number">-1</span>,r=n;</span><br><span class="line">        <span class="keyword">while</span>(l+<span class="number">1</span>!=r)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(a[mid]&lt;=x)<span class="comment">//isblue2</span></span><br><span class="line">            l=mid;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            r=mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(a[l]==x)</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;l&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;<span class="number">-1</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>算法基础</category>
+      </categories>
+      <tags>
+        <tag>排序</tag>
+        <tag>二分</tag>
       </tags>
   </entry>
   <entry>
@@ -428,38 +441,6 @@
       </tags>
   </entry>
   <entry>
-    <title>一、算法基础（一）</title>
-    <url>/2023/10/25/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h1 id="排序与二分"><a href="#排序与二分" class="headerlink" title="排序与二分"></a>排序与二分</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><ul>
-<li>快速排序</li>
-<li>归并排序</li>
-</ul>
-<p>1.快速排序</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">quick_sort</span><span class="params">(<span class="type">int</span> q[], <span class="type">int</span> l, <span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (l &gt;= r) <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> x=q[l+r &gt;&gt;<span class="number">1</span>];<span class="comment">//确定分界点，这里q[]未必要找中点</span></span><br><span class="line">    <span class="type">int</span> i = l - <span class="number">1</span>, j = r + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">do</span> i++; <span class="keyword">while</span> (q[i] &lt; x);</span><br><span class="line">        <span class="keyword">do</span> j--; <span class="keyword">while</span> (q[j] &gt; x);</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) swap(q[i], q[j]);</span><br><span class="line">    &#125;</span><br><span class="line">    quick_sort(q, l, j), quick_sort(q, j + <span class="number">1</span>, r);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>2.归并排序</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">merge_sort</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> l,<span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span>;</span><br><span class="line">    <span class="type">int</span> mid= l+r &gt;&gt;<span class="number">1</span>;<span class="comment">//确定分界点，一定得找中点</span></span><br><span class="line">    merge_sort(a,l,mid);</span><br><span class="line">    merge_sort(a,mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="type">int</span> k=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> i=l,j=mid+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid&amp;&amp;j&lt;=r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a[i]&lt;=a[j]) </span><br><span class="line">        tmp[k++]=a[i++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        tmp[k++]=a[j++];</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)</span><br><span class="line">    tmp[k++]=a[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r)</span><br><span class="line">    tmp[k++]=a[j++];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=l,j=<span class="number">0</span>;i&lt;=r;i++,j++)</span><br><span class="line">    a[i]=tmp[j];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>逆序对的数量</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line">using namespace <span class="built_in">std</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N=<span class="number">1e5</span>+<span class="number">10</span>;</span><br><span class="line"><span class="type">long</span> <span class="type">long</span> <span class="title function_">merge_sort</span><span class="params">(<span class="type">int</span> a[],<span class="type">int</span> l,<span class="type">int</span> r)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(l&gt;=r) <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> res=merge_sort(a,l,mid)+merge_sort(a,mid+<span class="number">1</span>,r);</span><br><span class="line">    <span class="type">int</span> i=l,j=mid+<span class="number">1</span>,k=<span class="number">0</span>;</span><br><span class="line">    <span class="type">int</span> b[N];</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid&amp;&amp;j&lt;=r)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="keyword">if</span>(a[i]&lt;=a[j])</span><br><span class="line">        b[k++]=a[i++];</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        &#123;</span><br><span class="line">            res+=mid-i+<span class="number">1</span>;</span><br><span class="line">            b[k++]=a[j++];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">while</span>(i&lt;=mid)</span><br><span class="line">    b[k++]=a[i++];</span><br><span class="line">    <span class="keyword">while</span>(j&lt;=r)</span><br><span class="line">    b[k++]=a[j++];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=l,j=<span class="number">0</span>;i&lt;=r;i++,j++)</span><br><span class="line">    a[i]=b[j];</span><br><span class="line">    <span class="keyword">return</span> res;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n;</span><br><span class="line">    <span class="type">int</span> a[N];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line">    <span class="type">long</span> <span class="type">long</span> ans=merge_sort(a,<span class="number">0</span>,n<span class="number">-1</span>);</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;ans;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="二分"><a href="#二分" class="headerlink" title="二分"></a>二分</h2><p><img src="/img/2.png"></p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> l=<span class="number">-1</span>,r=N;</span><br><span class="line"><span class="keyword">while</span>(l+<span class="number">1</span>!=r)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span>(isblue(mid))</span><br><span class="line">        l=m;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        r=m;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> l or r;</span><br></pre></td></tr></table></figure>
-<blockquote>
-<p>例题 acwing</p>
-</blockquote>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;iostream&gt;</span></span></span><br><span class="line">using namespace <span class="built_in">std</span>;</span><br><span class="line"><span class="type">const</span> <span class="type">int</span> N=<span class="number">1e5</span>+<span class="number">10</span>;</span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="type">int</span> n,q;</span><br><span class="line">    <span class="built_in">cin</span>&gt;&gt;n&gt;&gt;q;</span><br><span class="line">    <span class="type">int</span> a[N];</span><br><span class="line">    <span class="keyword">for</span>(<span class="type">int</span> i=<span class="number">0</span>;i&lt;n;i++)</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%d&quot;</span>,&amp;a[i]);</span><br><span class="line">    <span class="keyword">while</span>(q--)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="type">int</span> x;</span><br><span class="line">        <span class="built_in">cin</span>&gt;&gt;x;</span><br><span class="line">        <span class="type">int</span> l=<span class="number">-1</span>,r=n;</span><br><span class="line">        <span class="keyword">while</span>(l+<span class="number">1</span>!=r)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> mid=l +r &gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(a[mid]&lt;x)<span class="comment">//isblue1</span></span><br><span class="line">            l=mid;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            r=mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(a[r]==x) <span class="built_in">cout</span>&lt;&lt;r;</span><br><span class="line">        <span class="keyword">else</span> <span class="built_in">cout</span>&lt;&lt;<span class="number">-1</span>;</span><br><span class="line">        l=<span class="number">-1</span>,r=n;</span><br><span class="line">        <span class="keyword">while</span>(l+<span class="number">1</span>!=r)</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="type">int</span> mid=l+r&gt;&gt;<span class="number">1</span>;</span><br><span class="line">            <span class="keyword">if</span>(a[mid]&lt;=x)<span class="comment">//isblue2</span></span><br><span class="line">            l=mid;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">            r=mid;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span>(a[l]==x)</span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;l&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">        <span class="keyword">else</span></span><br><span class="line">        <span class="built_in">cout</span>&lt;&lt;<span class="string">&quot; &quot;</span>&lt;&lt;<span class="number">-1</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>算法基础</category>
-      </categories>
-      <tags>
-        <tag>排序</tag>
-        <tag>二分</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>三、算法基础（三）</title>
     <url>/2023/10/28/%E7%AE%97%E6%B3%95%E5%9F%BA%E7%A1%803/</url>
     <content><![CDATA[<h2 id="前缀和"><a href="#前缀和" class="headerlink" title="前缀和"></a>前缀和</h2><p>一维</p>
@@ -477,6 +458,31 @@
       <tags>
         <tag>前缀和</tag>
         <tag>差分</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据结构复习（五）</title>
+    <url>/2023/10/31/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%845--%E7%BA%BF%E7%B4%A2%E4%BA%8C%E5%8F%89%E6%A0%91/</url>
+    <content><![CDATA[<h1 id="线索二叉树"><a href="#线索二叉树" class="headerlink" title="线索二叉树"></a>线索二叉树</h1><h2 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h2><p><img src="/img/13.png"><br><img src="/img/14.png"><br>做题先遍历，得出遍历顺序好连线</p>
+<h2 id="中序线索二叉树的基本操作"><a href="#中序线索二叉树的基本操作" class="headerlink" title="中序线索二叉树的基本操作"></a>中序线索二叉树的基本操作</h2><ul>
+<li><p>找线索二叉树的第一个结点</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">TreeNode* <span class="title function_">FirstInorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    TreeNode* p=t;</span><br><span class="line">    <span class="keyword">while</span>(p-&gt;LThread==<span class="number">0</span>)<span class="comment">//p有左孩子</span></span><br><span class="line">        p=p-&gt;left;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>找线索二叉树的最后一个节点</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">TreeNode* <span class="title function_">LastInorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    TreeNode* p=t;</span><br><span class="line">    <span class="keyword">while</span>(p-&gt;LRThread==<span class="number">0</span>)<span class="comment">//p有右孩子</span></span><br><span class="line">        p=p-&gt;right;</span><br><span class="line">    <span class="keyword">return</span> p;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>找结点p的中根后继结点<br>若p-&gt;Rthread&#x3D;&#x3D;1,中根后继为p-&gt;right<br>若p-&gt;Rthread&#x3D;&#x3D;0,中根后继为其右子树的中根序列首结点</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">TreeNode* <span class="title function_">nextInorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(t-&gt;Rthread==<span class="number">1</span>) <span class="keyword">return</span> t-&gt;right;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> FirstInorder(t-&gt;right);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>找结点p的中根前驱节点<br>若p-&gt;Lthread&#x3D;&#x3D;1,中根前驱为p-&gt;left<br>若p-&gt;Lthread&#x3D;&#x3D;0,中跟前驱为其左子树的中根序列尾结点</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line">TreeNode* <span class="title function_">preInorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(t-&gt;Lthread==<span class="number">1</span>) <span class="keyword">return</span> t-&gt;left;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">return</span> LastInorder(t&gt;left);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>中序线索二叉树的中根遍历</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Inorder</span><span class="params">(TreeNode* t)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">for</span>(TreeNode* p=FirstInorder(t);p!=<span class="literal">NULL</span>;p=nextInorder(p))</span><br><span class="line">    &#123;</span><br><span class="line">        visit(p-&gt;data);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li><p>二叉树的中序线索化</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">Inorder_Threading</span><span class="params">(TreeNode* p)</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span>(p==<span class="literal">NULL</span>) <span class="keyword">return</span>;</span><br><span class="line">    Inorder_Threading(t-&gt;left);<span class="comment">//左</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(p-&gt;left==<span class="literal">NULL</span>) <span class="comment">//中</span></span><br><span class="line">    &#123;</span><br><span class="line">        p-&gt;Lthread=<span class="number">1</span>;</span><br><span class="line">        p-&gt;left=pre;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span></span><br><span class="line">        p-&gt;Lthread=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">if</span>(pre!=<span class="literal">NULL</span>&amp;&amp;pre-&gt;right==<span class="literal">NULL</span>)</span><br><span class="line">    &#123;</span><br><span class="line">        pre-&gt;Rthread=<span class="number">1</span>;</span><br><span class="line">        pre-&gt;right=p;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">else</span> <span class="keyword">if</span>(pre!=<span class="literal">NULL</span>)</span><br><span class="line">        pre-&gt;Rthread=<span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    Inrder_Threading(t-&gt;right);<span class="comment">//右</span></span><br><span class="line">&#125;</span><br><span class="line">pre-&gt;Rthread=<span class="number">1</span>;</span><br><span class="line"></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h2 id="关于前序后续线索二叉树"><a href="#关于前序后续线索二叉树" class="headerlink" title="关于前序后续线索二叉树"></a>关于前序后续线索二叉树</h2><p>前序线索二叉树不能高效解决先根前序<br>后序线索二叉树不能高效解决后根后续</p>
+]]></content>
+      <tags>
+        <tag>线索二叉树</tag>
       </tags>
   </entry>
   <entry>
